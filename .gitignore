@@ -209,6 +209,8 @@ __marimo__/
 
 #data versioning
 data/*
+!data/.gitkeep
+!data/**/*.dvc
 models/*
 !.gitkeep
 
