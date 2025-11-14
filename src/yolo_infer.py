@@ -12,6 +12,7 @@ try:
     session = ort.InferenceSession(ONNX_MODEL_PATH, providers=['CPUExecutionProvider'])
     INPUT_NAME = session.get_inputs()[0].name
     OUTPUT_NAME = session.get_outputs()[0].name
+    
 except Exception as e:
     print(f"Error loading ONNX model: {e}")
     session = None

@@ -1,7 +1,7 @@
 import cv2
 import argparse, shutil, os
 from yolo_infer import predict
-from blur import gaussian_blur
+from blur import gaussian_blur, pixelation_mossaic as mossaic, median_blurring as median, gaussian_oval_blur as gaussian_oval
 
 """ parsing the argument passed on cli"""
 
@@ -14,7 +14,17 @@ ap.add_argument(
     required=False,
     help="Size of the Gaussian Blur Kernel (e.g., 79 for 79X79) Must be a positive odd integer.",
 )
+ap.add_argument("--vid", required=False, help="Specify the path for video file")
+ap.add_argument("--cam", required=False, help="Specify The Cam Mount - list by face_anonymization cams -l")
 args = ap.parse_args()
+
+# ap.add_argument("--video", required=False, help="Path to the input video files")
+
+# if (args.vid is Not None):
+#     vid_path = args.vid_path
+# if(args.cam is Not None):
+#     cam_path = args.cam
+
 
 
 img_path = args.img
@@ -35,6 +45,7 @@ if img is None:
 
 
 results = predict(img)
+
 ''' function can be used for benchmarking'''
 
 # from utils_debug import save_viz
@@ -42,7 +53,9 @@ results = predict(img)
 
 
 
-blurred_frame = gaussian_blur(img, results, KERNEL_SIZE)
+blurred_frame = gaussian_oval(img, results, KERNEL_SIZE)
+
+# blurred_frame = median(img, results, 29)
 
 filename_base = os.path.splitext(os.path.basename(img_path))[0]
 output_filename = f"{filename_base}_blurred.jpg"
