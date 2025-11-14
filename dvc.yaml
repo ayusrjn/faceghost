@@ -1,9 +1,24 @@
 stages:
-  unzip:
-    cmd: python scripts/unzip.py --zip data/dataset.zip --out data/raw --clean
+  download_model:
+    cmd: wget 
+      https://huggingface.co/ayusrjn/optimized_face_detection_onnx/resolve/main/v0-1.onnx
+      -O models/v0-1.onnx
     deps:
-    - data/dataset.zip
+    - https://huggingface.co/ayusrjn/optimized_face_detection_onnx/resolve/main/v0-1.onnx
+    outs:
+    - models/v0-1.onnx
+  download_raw_data:
+    cmd: wget 
+      https://huggingface.co/datasets/ayusrjn/face-anonymizer-storage/resolve/main/dataset.zip
+      -O data/raw.zip
+    deps:
+    - https://huggingface.co/datasets/ayusrjn/face-anonymizer-storage/resolve/main/dataset.zip
+    outs:
+    - data/raw.zip
+  unzip:
+    cmd: python scripts/unzip.py  --zip data/raw.zip --out data/raw --clean
+    deps:
+    - data/raw.zip
     - scripts/unzip.py
     outs:
     - data/raw
-
