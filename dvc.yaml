@@ -6,8 +6,4 @@ stages:
     - scripts/unzip.py
     outs:
     - data/raw
-  download_onnx_model:
-    cmd: dvc import-url 
-      https://huggingface.co/ayusrjn/optimized_face_detection_onnx/resolve/main/v0-1.onnx
-    outs:
-    - models/v0-1.onxx
+

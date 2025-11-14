@@ -1,4 +1,4 @@
-md5: ec1cbb70bfdc016118b1aa96a94a6b45
+md5: 90eb7f67384c218ca338aca4c5c06a9b
 frozen: true
 deps:
 - checksum: '"85d9b3d5d1f70d527420eeec8648b8cfface6e4a4094bf07c2e9a60a3e6d05fd"'
@@ -10,4 +10,4 @@ outs:
 - md5: c0774bc2167b8dfd0044a0fc3c0447da
   size: 1837488516
   hash: md5
-  path: raw.zip
+  path: dataset.zip
