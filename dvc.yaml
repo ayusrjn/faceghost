@@ -1,8 +1,8 @@
 stages:
   unzip:
-    cmd: python scripts/unzip.py --zip data/raw.zip --out data/raw --clean
+    cmd: python scripts/unzip.py --zip data/dataset.zip --out data/raw --clean
     deps:
-    - data/raw.zip
+    - data/dataset.zip
     - scripts/unzip.py
     outs:
     - data/raw
