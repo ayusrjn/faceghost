@@ -1,16 +1,16 @@
 schema: '2.0'
 stages:
   unzip:
-    cmd: python scripts/unzip.py --zip data/dataset.zip --out data/raw --clean
+    cmd: python scripts/unzip.py  --zip data/raw.zip --out data/raw --clean
     deps:
-    - path: data/dataset.zip
+    - path: data/raw.zip
       hash: md5
       md5: c0774bc2167b8dfd0044a0fc3c0447da
       size: 1837488516
     - path: scripts/unzip.py
       hash: md5
-      md5: e5f5ab0a756335e8832e131d78b655e5
-      size: 782
+      md5: 492e9128d9f620337c64ce7124a07fe8
+      size: 693
       isexec: true
     outs:
     - path: data/raw
@@ -18,3 +18,33 @@ stages:
       md5: 15c442ad9214c3458e3c7acbac964312.dir
       size: 1852000110
       nfiles: 32213
+  download_model:
+    cmd: wget 
+      https://huggingface.co/ayusrjn/optimized_face_detection_onnx/resolve/main/v0-1.onnx
+      -O models/v0-1.onnx
+    deps:
+    - path: 
+        https://huggingface.co/ayusrjn/optimized_face_detection_onnx/resolve/main/v0-1.onnx
+      hash: md5
+      checksum: '"cc9340562c4177189d23bcd538140f25e152844c3bed75deb0d8e7e6996e27ad"'
+      size: 12325323
+    outs:
+    - path: models/v0-1.onnx
+      hash: md5
+      md5: fc91b42e5441e997f4a203d8a8d07e8c
+      size: 12325323
+  download_raw_data:
+    cmd: wget 
+      https://huggingface.co/datasets/ayusrjn/face-anonymizer-storage/resolve/main/dataset.zip
+      -O data/raw.zip
+    deps:
+    - path: 
+        https://huggingface.co/datasets/ayusrjn/face-anonymizer-storage/resolve/main/dataset.zip
+      hash: md5
+      checksum: '"85d9b3d5d1f70d527420eeec8648b8cfface6e4a4094bf07c2e9a60a3e6d05fd"'
+      size: 1837488516
+    outs:
+    - path: data/raw.zip
+      hash: md5
+      md5: c0774bc2167b8dfd0044a0fc3c0447da
+      size: 1837488516
