@@ -14,8 +14,8 @@ ap.add_argument(
     required=False,
     help="Size of the Gaussian Blur Kernel (e.g., 79 for 79X79) Must be a positive odd integer.",
 )
-ap.add_argument("--vid", required=False, help="Specify the path for video file")
-ap.add_argument("--cam", required=False, help="Specify The Cam Mount - list by face_anonymization cams -l")
+# ap.add_argument("--vid", required=False, help="Specify the path for video file")
+# ap.add_argument("--cam", required=False, help="Specify The Cam Mount - list by face_anonymization cams -l")
 args = ap.parse_args()
 
 # ap.add_argument("--video", required=False, help="Path to the input video files")
@@ -53,7 +53,7 @@ results = predict(img)
 
 
 
-blurred_frame = gaussian_oval(img, results, KERNEL_SIZE)
+blurred_frame = gaussian_blur(img, results, KERNEL_SIZE)
 
 # blurred_frame = median(img, results, 29)
 
