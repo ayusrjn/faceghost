@@ -21,7 +21,7 @@ args = ap.parse_args()
 # ap.add_argument("--video", required=False, help="Path to the input video files")
 
 # if (args.vid is Not None):
-#     vid_path = args.vid_path
+#     vid_path = args.vid_path 
 # if(args.cam is Not None):
 #     cam_path = args.cam
 
@@ -30,7 +30,7 @@ args = ap.parse_args()
 img_path = args.img
 kernel_val = args.kernel
 
-if kernel_val % 2 == 0:  # Kernel has to be an odd number for Gaussian Blur
+if kernel_val % 2 == 0:  # Kernel has to be an odd number for Gaussian Blur check
     kernel_val += 1
 if kernel_val <= 0:
     kernel_val = 79
