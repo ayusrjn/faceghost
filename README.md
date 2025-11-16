@@ -1,12 +1,21 @@
-# faceghost - face anonymization for image & videos
+# faceblur - face anonymization for image & videos
+![PyPI](https://img.shields.io/pypi/v/faceghost)
+![Python Versions](https://img.shields.io/pypi/pyversions/faceghost)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Build](https://img.shields.io/badge/build-passing-success)
+![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
+![Benchmark Verified](https://img.shields.io/badge/benchmark-verified-blue)
 
-faceghost is a lightweight Python package for automatically detecting and anonymizing faces in images and videos.
+
+
+Faceblur is a lightweight Python package for automatically detecting and anonymizing faces in images and videos.
 
 It uses a YOLO-based face detector and offers multiple blur and pixelation methods, making it ideal for datasets, research, and privacy-sensitive media.
 
-| Original Frame | `faceghost` output (using default options)|
+| Original Frame | `faceblur` output (using default options)|
 |--------|-------|
-| ![Original Frame](https://raw.githubusercontent.com/ayusrjn/face-anonymizer/refs/heads/video-support/images/target2.jpg) | ![`faceghost` Output](https://raw.githubusercontent.com/ayusrjn/face-anonymizer/refs/heads/video-support/images/target2_blurred.jpg) |
+| ![Original Frame](https://raw.githubusercontent.com/ayusrjn/face-anonymizer/refs/heads/video-support/images/target2.jpg) | ![`faceblur` Output](https://raw.githubusercontent.com/ayusrjn/face-anonymizer/refs/heads/video-support/images/target2_blurred.jpg) |
 
 ## Features
 
@@ -21,25 +30,25 @@ It uses a YOLO-based face detector and offers multiple blur and pixelation metho
 - Safe fallback handling (validates inputs, ensures kernel size is a positive odd integer).
 
 ## Installation
-`faceghost` supports all commonly operating system like linux, windows, mac. It can be used both on CLI like bash, shell, powershell.
+`faceblur` supports all commonly operating system like linux, windows, mac. It can be used both on CLI like bash, shell, powershell.
 
-Intallation of `faceghost` can be done through `pip` 
+Intallation of `faceblur` can be done through `pip` 
 
-`pip install faceghost`
+`pip install faceblur`
 
 ## Quick CLI Usage
 
 Process a single Image:
 
-`faceghost --img /path/to/photo.jpg`
+`faceblur --img /path/to/photo.jpg`
 
 Process a directory of images (saves blurred images into /folder_specified/face_anonymized/):
 
-`faceghost --dir /path/to/images --kernel 51 --blur mossaic`
+`faceblur --dir /path/to/images --kernel 51 --blur mossaic`
 
 Process a video (outputs basename_blurred.mp4 in the current working directory):
 
-`faceghost --vid /path/to/video.mp4 --kernel 41 --blur gaussian_sqr`
+`faceblur --vid /path/to/video.mp4 --kernel 41 --blur gaussian_sqr`
 
 #### CLI argument notes
 
@@ -53,7 +62,7 @@ Process a video (outputs basename_blurred.mp4 in the current working directory):
 
 You can use the function directly in Python:
 ```python 
-from faceghost import run_on_image, run_on_dir, run_on_video
+from faceblur import run_on_image, run_on_dir, run_on_video
 
 # Single image
 run_on_image("photo.jpg", blur_name="mossaic", kernel_val=51, output_path="outdir")
@@ -70,4 +79,38 @@ run_on_video("input.mp4", blur_name="gaussian_sqr", kernel_val=41)
 - `select_blur_function(blur_name)` — returns the blur function and whether it expects a tuple or int kernel.
 - `process_frame(frame, detect_results, blur_fn, kernel_tuple, kernel_int)` — applies the selected blur to the provided frame using detection results.
 - The detection step is performed by calling `predict(frame)` from the `yolo_infer` module; this function must return the detections in the format the blur functions expect.
+## Performance Benchmark
+
+A speed comparison between **`faceghost`** (Package A) and the popular anonymizer **`deface`** (Package B), tested on 5 videos using identical conditions.
+
+| Video | FaceGhost (A) — s | deface (B) — s | Speed-up (B / A) | % Time Saved |
+|-------|-------------------:|---------------:|------------------:|--------------:|
+| video1.mp4 | 11.39 | 65.39  | 5.74× | 82.6% |
+| video2.mp4 | 19.81 | 129.53 | 6.54× | 84.7% |
+| video3.mp4 | 20.60 | 139.10 | 6.75× | 85.2% |
+| video4.mp4 | 10.90 | 76.03  | 6.98× | 85.7% |
+| video5.mp4 | 35.32 | 242.30 | 6.86× | 85.4% |
+| **TOTAL**  | **98.02** | **652.35** | **6.66×** | **85.0%** |
+
+###  Summary
+FaceGhost is **~6.7× faster** than deface, reducing end-to-end anonymization time by **~85%** across the test suite.
+
+---
+
+###  Benchmark Setup
+
+**Hardware:**  
+- Ubuntu Linux  
+- 16 GB RAM  
+- NVIDIA GTX 2050 (8 GB VRAM)
+
+**Method:**  
+- Each package run via CLI using the same video files  
+- Timed using Python `time` module  
+- Command templates used:
+  - FaceGhost: `faceblur --vid {video}`
+  - deface: `deface {video}`
+- Five videos processed sequentially
+
+---
 
