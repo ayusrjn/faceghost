@@ -1,9 +1,9 @@
-# src/faceblur/__init__.py
+# src/faceghost/__init__.py
 
 from importlib.metadata import PackageNotFoundError, version as _get_version
 
 try:
-    __version__ = _get_version("faceblur")   
+    __version__ = _get_version("faceghost")   
 except PackageNotFoundError:
     __version__ = "0.0.0"
 

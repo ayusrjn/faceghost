@@ -16,7 +16,7 @@ MODEL_PATH = 'model'
 MODEL_FILE = 'v0-1.onnx'
 
 def get_model_path():
-    resource_path = resources.files('faceblur') / MODEL_PATH / MODEL_FILE
+    resource_path = resources.files('faceghost') / MODEL_PATH / MODEL_FILE
     return resource_path
 
 def load_onnx_model():
