@@ -1,10 +1,10 @@
 import cv2
 import argparse, shutil, os
-from yolo_infer import predict
+from .yolo_infer import predict
 from tqdm import tqdm
 import math
 
-from blur import (
+from .blur import (
     gaussian_blur,
     pixelation_mossaic as mossaic,
     median_blurring as median,

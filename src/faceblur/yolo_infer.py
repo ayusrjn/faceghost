@@ -1,23 +1,51 @@
 import onnxruntime as ort
 import numpy as np
 import cv2
+import importlib.resources as resources
+import os
 
-ONNX_MODEL_PATH = "/models/v0-1.onnx"
-INPUT_SIZE = 640                 
-CONF_THRESHOLD = 0.25            
-IOU_THRESHOLD = 0.45            
+session = None
+INPUT_NAME = None
+OUTPUT_NAME = None
 
+INPUT_SIZE = 640
+CONF_THRESHOLD = 0.25
+IOU_THRESHOLD = 0.45
 
-try:
-    session = ort.InferenceSession(ONNX_MODEL_PATH, providers=['CPUExecutionProvider'])
-    INPUT_NAME = session.get_inputs()[0].name
-    OUTPUT_NAME = session.get_outputs()[0].name
+MODEL_PATH = 'model'
+MODEL_FILE = 'v0-1.onnx'
+
+def get_model_path():
+    resource_path = resources.files('faceblur') / MODEL_PATH / MODEL_FILE
+    return resource_path
+
+def load_onnx_model():
+    """Loads the ONNX model using its path."""
     
-except Exception as e:
-    print(f"Error loading ONNX model: {e}")
-    session = None
-    INPUT_NAME = None
-    OUTPUT_NAME = None
+    global session, INPUT_NAME, OUTPUT_NAME 
+    # -----------------------------
+    
+    model_path = get_model_path()
+    
+    
+    if model_path.exists():
+        
+        try:
+            
+            session = ort.InferenceSession(str(model_path), providers=['CPUExecutionProvider'])
+            INPUT_NAME = session.get_inputs()[0].name
+            OUTPUT_NAME = session.get_outputs()[0].name
+            
+        except Exception as e:
+            print(f"Error loading ONNX model: {e}")
+            session = None
+            INPUT_NAME = None
+            OUTPUT_NAME = None
+    else:
+        print("Error: Model file does not exist at the resource path.")
+
+load_onnx_model()
+
 
 def preprocess(img: np.ndarray) -> tuple[np.ndarray, int, int]:
     """Resizes, converts to RGB, normalizes, and reshapes for ONNX input."""
